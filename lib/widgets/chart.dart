@@ -23,13 +23,13 @@ class Chart extends StatelessWidget {
           sum = recent[i].amount + sum;
         }
       }
-      print(sum);
-      print(DateFormat.E().format(weekDay));
+      // print(sum);
+      // print(DateFormat.E().format(weekDay));
       return {
         'day': DateFormat.E().format(weekDay).substring(0, 2),
         'amount': sum
       };
-    }).toList();
+    }).reversed.toList();
   }
 
   double get totalSpending {

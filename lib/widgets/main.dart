@@ -52,7 +52,7 @@ class _MyappState extends State<Myapp> {
   }
 
   int count = 0;
-  void _addNewT(String newTitile, double newAmount) {
+  void _addNewT(String newTitile, double newAmount, DateTime datetimenow) {
     count++;
 
     setState(() {
@@ -60,7 +60,7 @@ class _MyappState extends State<Myapp> {
           id: count.hashCode.toString(),
           title: newTitile,
           amount: newAmount,
-          date: DateTime.now());
+          date: datetimenow);
       _usertrans.add(newtx);
     });
   }
@@ -71,7 +71,7 @@ class _MyappState extends State<Myapp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.purple,
-          accentColor: Color.fromARGB(255, 227, 213, 172),
+          accentColor: Color.fromARGB(255, 227, 190, 80),
         ),
         home: Scaffold(
           appBar: AppBar(

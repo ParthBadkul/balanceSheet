@@ -19,7 +19,7 @@ class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 800,
+        height: 400,
         child: widget.trans.isEmpty
             ? Container(
                 width: double.infinity,
@@ -48,47 +48,26 @@ class _TransactionListState extends State<TransactionList> {
                 //List View has unlimited Height
                 itemCount: widget.trans.length,
                 itemBuilder: (ctx, index) {
-                  return Card(
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 15),
-                          decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: Colors.purple, width: 3)),
-                          padding: EdgeInsets.all(12),
-                          child: Text(
-                            '₹${widget.trans[index].amount.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.5,
-                              color: Colors.purple,
-                            ),
+                  return Flexible(
+                    fit: FlexFit.tight,
+                    child: Card(
+                      elevation: 5,
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 30,
+                          child: Padding(
+                            padding: EdgeInsets.all(8),
+                            child: FittedBox(
+                                child: Text(
+                                    '₹${widget.trans[index].amount.toString()}')),
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              widget.trans[index].title.toString(),
-                              textAlign: TextAlign.end,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w800),
-                            ),
-                            Text(
-                              DateFormat.yMMMd()
-                                  .format(widget.trans[index].date),
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontSize: 11,
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
+                        title: Text(widget.trans[index].title,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Text(DateFormat.yMMMEd()
+                            .format(widget.trans[index].date)),
+                      ),
                     ),
                   );
                 },

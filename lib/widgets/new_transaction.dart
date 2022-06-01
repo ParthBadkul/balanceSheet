@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import './user_transaction.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -18,22 +19,41 @@ class _NewTransactionState extends State<NewTransaction> {
   TextEditingController amountInput = TextEditingController();
   final fieldText = TextEditingController();
   final fieldamount = TextEditingController();
+  DateTime _selectedDate;
 
   void submiData() {
     final eneteredTitle = titleCont.text;
     final eneteredAmount = double.parse(amountInput.text);
 
-    if (eneteredTitle.isEmpty || eneteredAmount <= 0) {
+    if (eneteredTitle.isEmpty || eneteredAmount <= 0 || _selectedDate == null) {
       return;
     }
 
-    widget.addTx(titleCont.text, eneteredAmount);
+    widget.addTx(titleCont.text, eneteredAmount, _selectedDate);
     Navigator.of(context).pop();
   }
 
   void cleardata() {
     fieldText.clear();
     fieldamount.clear();
+  }
+
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    ).then((pickedDtea) {
+      setState(() {
+        if (pickedDtea == null) {
+          return;
+        } else {
+          _selectedDate = pickedDtea;
+        }
+        Navigator.of(context).mounted;
+      });
+    });
   }
 
   @override
@@ -43,7 +63,7 @@ class _NewTransactionState extends State<NewTransaction> {
       child: Container(
         padding: EdgeInsets.all(11),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
@@ -61,6 +81,24 @@ class _NewTransactionState extends State<NewTransaction> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submiData(),
               controller: fieldamount,
+            ),
+            Container(
+              height: 20,
+              margin: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: Text(_selectedDate == null
+                        ? 'No Date Choosen!'
+                        : 'Picked Date:${DateFormat.yMd().format(_selectedDate)}'),
+                  ),
+                  FlatButton(
+                      onPressed: _presentDatePicker,
+                      textColor: Colors.purple,
+                      child: Text('Enter Date'))
+                ],
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
