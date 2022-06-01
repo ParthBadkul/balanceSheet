@@ -16,6 +16,8 @@ class _NewTransactionState extends State<NewTransaction> {
   TextEditingController titleCont = TextEditingController();
 
   TextEditingController amountInput = TextEditingController();
+  final fieldText = TextEditingController();
+  final fieldamount = TextEditingController();
 
   void submiData() {
     final eneteredTitle = titleCont.text;
@@ -27,6 +29,11 @@ class _NewTransactionState extends State<NewTransaction> {
 
     widget.addTx(titleCont.text, eneteredAmount);
     Navigator.of(context).pop();
+  }
+
+  void cleardata() {
+    fieldText.clear();
+    fieldamount.clear();
   }
 
   @override
@@ -43,6 +50,7 @@ class _NewTransactionState extends State<NewTransaction> {
               onChanged: (value) {
                 titleCont.text = value;
               },
+              controller: fieldText,
               onSubmitted: (_) => submiData(),
             ),
             TextField(
@@ -52,18 +60,21 @@ class _NewTransactionState extends State<NewTransaction> {
               },
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submiData(),
+              controller: fieldamount,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    cleardata();
+                  },
                   child: const Text('Clear'),
                   textColor: Colors.purple,
                 ),
                 FlatButton(
                   onPressed: () {
-                    submiData;
+                    submiData();
                   },
                   child: Text('Add Transaction'),
                   textColor: Colors.purple,

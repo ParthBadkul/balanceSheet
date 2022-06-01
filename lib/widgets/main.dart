@@ -4,8 +4,10 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:nakama/api.dart';
 import 'package:udemy2/models/transaction.dart';
 import 'package:intl/intl.dart';
+import 'package:udemy2/widgets/chart.dart';
 import 'package:udemy2/widgets/new_transaction.dart';
 import 'package:udemy2/widgets/transaction_list.dart';
 import 'package:udemy2/widgets/user_transaction.dart';
@@ -38,15 +40,27 @@ class _MyappState extends State<Myapp> {
     // Transaction(
     //     id: 't2', title: 'AirJordans 1', amount: 20000, date: DateTime.now()),
   ];
+
+  List<Transaction> get recentTransaction {
+    return _usertrans.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
   int count = 0;
   void _addNewT(String newTitile, double newAmount) {
     count++;
-    final newtx = Transaction(
-        id: count.hashCode.toString(),
-        title: newTitile,
-        amount: newAmount,
-        date: DateTime.now());
+
     setState(() {
+      final newtx = Transaction(
+          id: count.hashCode.toString(),
+          title: newTitile,
+          amount: newAmount,
+          date: DateTime.now());
       _usertrans.add(newtx);
     });
   }
@@ -76,18 +90,14 @@ class _MyappState extends State<Myapp> {
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Card(
-                  color: Theme.of(context).primaryColorLight,
-                  elevation: 7,
-                  child: Container(
-                    width: double.infinity,
-                    // ignore: prefer_const_constructors
-                    child: Text(
-                      'Charts!s',
-                    ),
-                  ),
+                Chart(recentTransaction),
+                SizedBox(
+                  height: 10,
                 ),
-                TransactionList(_usertrans),
+                Card(
+                    borderOnForeground: true,
+                    shadowColor: Color.fromARGB(255, 245, 144, 178),
+                    child: TransactionList(_usertrans)),
               ],
             ),
           ),

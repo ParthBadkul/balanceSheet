@@ -19,7 +19,7 @@ class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 400,
+        height: 800,
         child: widget.trans.isEmpty
             ? Container(
                 width: double.infinity,
