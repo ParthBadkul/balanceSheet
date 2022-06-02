@@ -11,8 +11,11 @@ import 'package:udemy2/widgets/chart.dart';
 import 'package:udemy2/widgets/new_transaction.dart';
 import 'package:udemy2/widgets/transaction_list.dart';
 import 'package:udemy2/widgets/user_transaction.dart';
+import 'package:flutter/services.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(Myapp());
 }
 
@@ -76,6 +79,13 @@ class _MyappState extends State<Myapp> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      centerTitle: true,
+      title: Text(
+        'KhataBook',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -83,45 +93,35 @@ class _MyappState extends State<Myapp> {
           accentColor: Color.fromARGB(255, 227, 190, 80),
           errorColor: Colors.red,
         ),
-        home: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text(
-              'KhataBook',
-              style: TextStyle(fontWeight: FontWeight.bold),
+        home: Container(
+          child: Scaffold(
+            appBar: appBar,
+            body: SingleChildScrollView(
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Chart(recentTransaction),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                      borderOnForeground: true,
+                      shadowColor: Color.fromARGB(255, 245, 144, 178),
+                      child: Container(
+                          height: 600,
+                          child:
+                              TransactionList(_usertrans, deleteTransaction))),
+                ],
+              ),
             ),
-            // actions: <Widget>[
-            //   IconButton(
-            //       onPressed: () => _startAddNewTransaction(context),
-            //       icon: Icon(
-            //         Icons.add_box,
-            //       ))
-            // ],
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Chart(recentTransaction),
-                SizedBox(
-                  height: 10,
-                ),
-                Card(
-                    borderOnForeground: true,
-                    shadowColor: Color.fromARGB(255, 245, 144, 178),
-                    child: Container(
-                        height: 600,
-                        child: TransactionList(_usertrans, deleteTransaction))),
-              ],
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Builder(
+              builder: (cx) => FloatingActionButton(
+                  onPressed: () => _startAddNewTransaction(cx),
+                  child: Icon(Icons.add)),
             ),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: Builder(
-            builder: (cx) => FloatingActionButton(
-                onPressed: () => _startAddNewTransaction(cx),
-                child: Icon(Icons.add)),
           ),
         ));
   }
