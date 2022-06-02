@@ -82,23 +82,19 @@ class _NewTransactionState extends State<NewTransaction> {
               onSubmitted: (_) => submiData(),
               controller: fieldamount,
             ),
-            Container(
-              height: 20,
-              margin: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: Text(_selectedDate == null
-                        ? 'No Date Choosen!'
-                        : 'Picked Date:${DateFormat.yMd().format(_selectedDate)}'),
-                  ),
-                  FlatButton(
-                      onPressed: _presentDatePicker,
-                      textColor: Colors.purple,
-                      child: Text('Enter Date'))
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: Text(_selectedDate == null
+                      ? 'No Date Choosen!'
+                      : 'Picked Date:${DateFormat.yMd().format(_selectedDate)}'),
+                ),
+                FlatButton(
+                    onPressed: _presentDatePicker,
+                    textColor: Colors.purple,
+                    child: Text('Enter Date'))
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -123,6 +119,5 @@ class _NewTransactionState extends State<NewTransaction> {
         ),
       ),
     );
-    ;
   }
 }

@@ -53,15 +53,24 @@ class _MyappState extends State<Myapp> {
 
   int count = 0;
   void _addNewT(String newTitile, double newAmount, DateTime datetimenow) {
-    count++;
-
+    final newtx = Transaction(
+        id: DateTime.now().toString(),
+        title: newTitile,
+        amount: newAmount,
+        date: datetimenow);
+    print('object');
     setState(() {
-      final newtx = Transaction(
-          id: count.hashCode.toString(),
-          title: newTitile,
-          amount: newAmount,
-          date: datetimenow);
       _usertrans.add(newtx);
+    });
+    ;
+  }
+
+  void deleteTransaction(String id) {
+    print('deletfrom function');
+    setState(() {
+      _usertrans.removeWhere((e) {
+        return (e.id == id);
+      });
     });
   }
 
@@ -72,6 +81,7 @@ class _MyappState extends State<Myapp> {
         theme: ThemeData(
           primarySwatch: Colors.purple,
           accentColor: Color.fromARGB(255, 227, 190, 80),
+          errorColor: Colors.red,
         ),
         home: Scaffold(
           appBar: AppBar(
@@ -97,7 +107,9 @@ class _MyappState extends State<Myapp> {
                 Card(
                     borderOnForeground: true,
                     shadowColor: Color.fromARGB(255, 245, 144, 178),
-                    child: TransactionList(_usertrans)),
+                    child: Container(
+                        height: 600,
+                        child: TransactionList(_usertrans, deleteTransaction))),
               ],
             ),
           ),

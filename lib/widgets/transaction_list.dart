@@ -5,25 +5,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
 
-class TransactionList extends StatefulWidget {
+class TransactionList extends StatelessWidget {
   // const TransactionList({Key? key}) : super(key: key);
 
+  Function deleteTx;
   List<Transaction> trans;
-  TransactionList(this.trans) {}
 
-  @override
-  State<TransactionList> createState() => _TransactionListState();
-}
+  TransactionList(this.trans, this.deleteTx) {}
 
-class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
     return Container(
         height: 400,
-        child: widget.trans.isEmpty
+        child: trans.isEmpty
             ? Container(
                 width: double.infinity,
-                height: 300,
+                height: 400,
                 child: ListView(
                   // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -46,10 +43,9 @@ class _TransactionListState extends State<TransactionList> {
               )
             : ListView.builder(
                 //List View has unlimited Height
-                itemCount: widget.trans.length,
+                itemCount: trans.length,
                 itemBuilder: (ctx, index) {
-                  return Flexible(
-                    fit: FlexFit.tight,
+                  return Container(
                     child: Card(
                       elevation: 5,
                       margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
@@ -59,14 +55,24 @@ class _TransactionListState extends State<TransactionList> {
                           child: Padding(
                             padding: EdgeInsets.all(8),
                             child: FittedBox(
-                                child: Text(
-                                    '₹${widget.trans[index].amount.toString()}')),
+                                child:
+                                    Text('₹${trans[index].amount.toString()}')),
                           ),
                         ),
-                        title: Text(widget.trans[index].title,
+                        title: Text(trans[index].title,
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Text(DateFormat.yMMMEd()
-                            .format(widget.trans[index].date)),
+                        subtitle:
+                            Text(DateFormat.yMMMEd().format(trans[index].date)),
+                        trailing: IconButton(
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          ),
+                          onPressed: () {
+                            print('delete');
+                            deleteTx;
+                          },
+                        ),
                       ),
                     ),
                   );
