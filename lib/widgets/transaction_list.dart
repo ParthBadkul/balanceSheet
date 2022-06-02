@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import '../models/transaction.dart';
+import './main.dart';
+import './new_transaction.dart';
+import './transaction_list.dart';
 
 class TransactionList extends StatelessWidget {
   // const TransactionList({Key? key}) : super(key: key);
@@ -70,7 +73,7 @@ class TransactionList extends StatelessWidget {
                           ),
                           onPressed: () {
                             print('delete');
-                            deleteTx;
+                            deleteTx(trans[index].id);
                           },
                         ),
                       ),

@@ -86,7 +86,10 @@ class _MyappState extends State<Myapp> {
         home: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text('KhataBook'),
+            title: Text(
+              'KhataBook',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             // actions: <Widget>[
             //   IconButton(
             //       onPressed: () => _startAddNewTransaction(context),
