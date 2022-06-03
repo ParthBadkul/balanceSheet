@@ -69,13 +69,15 @@ class _MyappState extends State<Myapp> {
   }
 
   void deleteTransaction(String id) {
-    print('deletfrom function');
+    // print('deletfrom function');
     setState(() {
       _usertrans.removeWhere((e) {
         return (e.id == id);
       });
     });
   }
+
+  bool _showchart = false;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ class _MyappState extends State<Myapp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.purple,
-          accentColor: Color.fromARGB(255, 227, 190, 80),
+          accentColor: Color.fromARGB(255, 229, 173, 6),
           errorColor: Colors.red,
         ),
         home: Container(
@@ -101,9 +103,27 @@ class _MyappState extends State<Myapp> {
                 // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Chart(recentTransaction),
-                  SizedBox(
-                    height: 10,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Show Chart'),
+                      Switch(
+                          value: _showchart,
+                          onChanged: (value) {
+                            setState(() {
+                              _showchart = value;
+                            });
+                          })
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      _showchart == true
+                          ? Chart(recentTransaction)
+                          : SizedBox(
+                              height: 10,
+                            )
+                    ],
                   ),
                   Card(
                       borderOnForeground: true,
